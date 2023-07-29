@@ -80,3 +80,130 @@ And so far, he's been right. Nowadays, we store various types of data, including
 
 ## Bit
 The term Bit is just short for Binary Digit.
+
+## Byte
+A Byte is a group of bits.\
+- like how 10mm = 1cm.\
+
+### 8 Bits = 1 Byte
+One byte is the number of bits stored to store a single text character. e.g. `a`\
+Therefore, it's also been used as the smallest addressible unit of a computer.\
+Historically, the size has been platform-dependent and ranged from 1-48.\
+It was standardized in the 60s to 6 bits, because that's as many bits as an ASCII character took.\
+In 1993, 8 bits became an ISO-certified standard and has been since then.
+
+## KByte and More
+- 1024 Byte = 1 Kilo Byte
+- 1024 Kilo Byte = 1 Mega Byte
+- 1024 Mega Byte = 1 Giga Byte
+- 1024 Giga Byte = 1 Tera Byte
+
+## Hexadecimal System
+The Hexadecimal is a 16-based system.
+- It has 16 digits: $0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F$
+- We use letters for the extra digits that our decimal system doesn't have.
+
+|Hexadecimal Digit|0|1|2|3|4|5|6|7|8|9|A|B|C|D|E|F|
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+Decimal Value|0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|
+
+### Byte Representation
+We use the Hexadecimal mainly to represent the value of 1 Byte.
+
+#### 1 Hex Digit = 4 Bits
+One Hexadecimal digit can be perfectly used to represent 4 Bits.
+|Hexadecimal Digit|0|1|2|3|4|5|6|7|8|9|A|B|C|D|E|F|
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+Bits|0000|0001|0010|0011|0100|0101|0110|0111|1000|1001|1010|1011|1100|1101|1110|11111|
+
+#### 2 Hex Digits = 8 Bits = 1 Byte
+Therefore, two hexadecimal digits can perfectly represent 8 bits:
+|Hexadecimal Digits|Binary Digits|Decimal Value|
+|:----------------:|:-----------:|:-----------:|
+|        00        |   00000000  |      0      |
+|        01        |   00000001  |      1      |
+|        02        |   00000010  |      2      |
+|        03        |   00000011  |      3      |
+|        0F        |   00001111  |     15      |
+|        10        |   00010000  |     16      |
+|        11        |   00010001  |     17      |
+|        12        |   00010010  |     18      |
+|        13        |   00010011  |     19      |
+|        20        |   00100000  |     32      |
+|        40        |   01000000  |     64      |
+|        79        |   01111111  |    127      |
+|        80        |   10000000  |    128      |
+|        FF        |   11111111  |    255      |
+
+### Use Cases
+This is so useful that you should get used to using Hexadecimal numbers.\
+
+- Hackers and Debuggers to analyze the information stored in RAM or Binaries.
+- Runtimes to print Memory Addresses / Pointer Values
+- Apps to encode colors
+  - RGBA8 is a format where there is each 1 byte for Red, Green, Blue and Alpha Channel.
+  - You can express for example Visible Yellow Color as: `#FFFF00FF`
+    - Red:   `255` or `11111111`, so full power
+    - Green: `255` or `11111111`, so full power
+    - Blue: `0` or `00000000`, so no blue
+    - Alpha: `255` or `11111111`, so no transparency
+
+
+## Random Access Memory
+
+### Addresses
+- All information stored on our computers Runtime Memory is stored at addresses.
+- Those Addresses have typically either 32 or 64 bit nowadays
+- If you have 4GB RAM and 32bit Addresses
+  - Then, the first Byte has the address #0 (or hexadecimal 0x00000000)
+  - And the last Byte has the address #4294967296 (or hexadecimal 0xFFFFFFFF)
+ 
+At each of these addresses, you find one byte of information:
+
+Therefore, two hexadecimal digits can perfectly represent 8 bits:
+
+### Byte-Data
+|Address|Byte-Data|Hex-Representation|
+|:-----------------:|:-----------:|:---:|
+|         00        |   00000000  |00|
+|         01        |   00000001  |01|
+|         02        |   00000011  |03|
+|         03        |   00000100  |04|
+|         04        |   00000100  |04|
+|         05        |   00000101  |05|
+|         06        |   00000110  |06|
+|         07        |   00000110  |06|
+|         08        |   00000111  |07|
+|         09        |   00000111  |07|
+|         10        |   11111111  |FF|
+|         11        |   00000000  |00|
+|         12        |   00000000  |00|
+|         13        |   11111111  |FF|
+
+So, what can we see here?
+
+Actually, we can't know. Look for example at Address #01:
+- `00000001` or `0x01`
+  
+Depending on what data there is at that address, it could stand for:
+- `bool`: `True`
+- `int`: `1`
+- `char`: `'a'` (it wouldn't really be `'a'`, but for the sake of simplicity we'll pretend)
+- `RGBA8`: a very, very light red value (almost unnoticable)
+
+So, how do we know, which one it is? Only the program that put the data there, knows.
+
+```cs
+static void Main() {
+  bool isRunning = true; // placed at address 01
+  byte a = 3;            // placed at address 02
+  byte b = 4;            // placed at address 03
+}
+```
+
+Now, when you use those variables in your code, then the compiler will know, what type of value to find at that address:
+```cs
+  // compiler knows that byte a is at address 02
+  // and that byte b is at address 03
+  Console.WriteLine(a+b); // looks up value at address 02 and adds it to value at address 03
+```
