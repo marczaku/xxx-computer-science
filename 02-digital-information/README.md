@@ -120,20 +120,20 @@ Bits|0000|0001|0010|0011|0100|0101|0110|0111|1000|1001|1010|1011|1100|1101|1110|
 Therefore, two hexadecimal digits can perfectly represent 8 bits:
 |Hexadecimal Digits|Binary Digits|Decimal Value|
 |:----------------:|:-----------:|:-----------:|
-|        00        |   00000000  |      0      |
-|        01        |   00000001  |      1      |
-|        02        |   00000010  |      2      |
-|        03        |   00000011  |      3      |
-|        0F        |   00001111  |     15      |
-|        10        |   00010000  |     16      |
-|        11        |   00010001  |     17      |
-|        12        |   00010010  |     18      |
-|        13        |   00010011  |     19      |
-|        20        |   00100000  |     32      |
-|        40        |   01000000  |     64      |
-|        79        |   01111111  |    127      |
-|        80        |   10000000  |    128      |
-|        FF        |   11111111  |    255      |
+|        00        |   0000 0000  |      0      |
+|        01        |   0000 0001  |      1      |
+|        02        |   0000 0010  |      2      |
+|        03        |   0000 0011  |      3      |
+|        0F        |   0000 1111  |     15      |
+|        10        |   0001 0000  |     16      |
+|        11        |   0001 0001  |     17      |
+|        12        |   0001 0010  |     18      |
+|        13        |   0001 0011  |     19      |
+|        20        |   0010 0000  |     32      |
+|        40        |   0100 0000  |     64      |
+|        79        |   0111 1111  |    127      |
+|        80        |   1000 0000  |    128      |
+|        FF        |   1111 1111  |    255      |
 
 ### Use Cases
 This is so useful that you should get used to using Hexadecimal numbers.\
@@ -162,23 +162,23 @@ At each of these addresses, you find one byte of information:
 
 Therefore, two hexadecimal digits can perfectly represent 8 bits:
 
-### Byte-Data
+### Data Types
 |Address|Byte-Data|Hex-Representation|
 |:-----------------:|:-----------:|:---:|
-|         00        |   00000000  |00|
-|         01        |   00000001  |01|
-|         02        |   00000011  |03|
-|         03        |   00000100  |04|
-|         04        |   00000100  |04|
-|         05        |   00000101  |05|
-|         06        |   00000110  |06|
-|         07        |   00000110  |06|
-|         08        |   00000111  |07|
-|         09        |   00000111  |07|
-|         10        |   11111111  |FF|
-|         11        |   00000000  |00|
-|         12        |   00000000  |00|
-|         13        |   11111111  |FF|
+|         00        |   0000 0000  |00|
+|         01        |   0000 0001  |01|
+|         02        |   0000 0011  |03|
+|         03        |   0000 0100  |04|
+|         04        |   0000 0100  |04|
+|         05        |   0000 0101  |05|
+|         06        |   0000 0110  |06|
+|         07        |   0000 0110  |06|
+|         08        |   0000 0111  |07|
+|         09        |   0000 0111  |07|
+|         10        |   1111 1111  |FF|
+|         11        |   0000 0000  |00|
+|         12        |   0000 0000  |00|
+|         13        |   1111 1111  |FF|
 
 So, what can we see here?
 
@@ -201,9 +201,60 @@ static void Main() {
 }
 ```
 
-Now, when you use those variables in your code, then the compiler will know, what type of value to find at that address:
+Now, when you use those variables in your code, then the compiler will know, what address it stored the variable at and what type that variable has:
 ```cs
   // compiler knows that byte a is at address 02
   // and that byte b is at address 03
   Console.WriteLine(a+b); // looks up value at address 02 and adds it to value at address 03
 ```
+
+### Data Sizes
+What is the greatest value that one byte of data can represent?
+- 255
+
+But what if we want to store a number larger than that? For example the number 300?
+- We need more bits
+
+But the RAM only gives us whole bytes
+- Then we need more bytes
+
+The Data Type `short` in C# has two bytes.
+- it can contain values up to $256\multi256 = 65,536$
+- same as with decimal digits:
+  - one decimal digit can contain 10 different values
+  - two decimal digits can contain $10\multi10 = 100$ different values
+
+Binary Number for 300:
+- `0000 0001 0010 1100` or `0x012C`
+
+But if we want to store it at address 100, then how do we store it?
+
+### Endianness
+Little-Endian describes, when the lowest byte comes first:
+
+|Address|Byte-Data|Hex-Representation|
+|:-----------------:|:-----------:|:---:|
+|        100        |   0010 1100  |2C|
+|        101        |   0000 0001  |01|
+
+Big-Endian describes, when the highest byte comes first:
+
+|Address|Byte-Data|Hex-Representation|
+|:-----------------:|:-----------:|:---:|
+|        100        |   0000 0001  |01|
+|        101        |   0010 1100  |2C|
+
+### Which one should you use?
+That's not up to you to decide:
+- The CPU architecture decides this
+  - because the CPU is capable of adding two 4-byte numbers on its chip
+  - therefore it needs to know which one comes first
+- Nowadays, most architectures use Little-Endian including
+  - x86 (Intel and AMD)
+  - ARM (mostly used by Apple Silicon and most Smartphones)
+ 
+### Is this relevant for my work?
+It can be, when you send Little-Endian Data to a Big-Endian Hardware.
+- e.g. through a File or some Network Connection
+- Because then you send: `0x012C (300)`
+- And the receiver receives: `0x2C01 (11,265)`
