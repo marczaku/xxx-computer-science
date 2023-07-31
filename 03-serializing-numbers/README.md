@@ -166,7 +166,7 @@ Other Types of Numbers:
 ### Decimal Point
 You all know, how the decimal point works. Similarly how each additional digit before the Decimal Point increases the power by one, each digit after the Decimal Point decreases it:
 |Power|3|2|1|0|.|-1|-2|
-|:---:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|:---:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 |Name |Thousand|Hundred|Ten|One|Dot|Tenth|Hundredth|
 |Value|$10^3=1000$|$10^2=100$|$10^1=10$|$10^0=1$|.|$10^{-1}=0.1$|$10^{-2}=0.1$|
 |Sample|1|3|3|7|.|2|5|
