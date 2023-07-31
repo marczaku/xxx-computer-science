@@ -137,3 +137,109 @@ This solution solves both problems. To create a negative number, e.g. -4:
 
 #### Negative Zero?
 Let's see, what happens when we try to define negative zero:
+- we start with zero: `0000 0000 (0)`
+- then, we invert the byte: `1111 1111 (255)`
+- then, we add one: `(1)0000 0000 (0)`
+- so we end up with positive zero again, cool.
+
+#### What about addition?
+```
+    0000 0100 (4)
+   +1111 1111 (-1)
+---------------
+(-1)0000 0011 (3)
+```
+
+Other Types of Numbers:
+<img width="359" alt="image" src="https://github.com/marczaku/xxx-computer-science/assets/7360266/aa7ac179-41bf-4f6f-8e6b-e999d0b1e32f">
+
+## Rational Numbers
+- How can we store rational numbers in binary?
+- All numbers that can be written as $p\diva$
+  - where `p` and `a` are whole numbers
+  - (that's why it's called RATIOnal numbers)
+- All rational numbers can be written either
+  - as a finite fraction: $1\div2 = 0.5$
+  - a period fraction: $1\div3 = 0.333...$
+ 
+### Decimal Point
+You all know, how the decimal point works. Similarly how each additional digit before the Decimal Point increases the power by one, each digit after the Decimal Point decreases it:
+|Power|3|2|1|0|.|-1|-2|
+|:---:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|Name |Thousand|Hundred|Ten|One|Dot|Tenth|Hundredth|
+|Value|$10^3=1000$|$10^2=100$|$10^1=10$|$10^0=1$|.|$10^{-1}=0.1$|$10^{-2}=0.1$|
+|Sample|1|3|3|7|.|2|5|
+
+Value: 1337.25
+
+### Binary Point
+This works the same in the binary system:
+|Power|3|2|1|0|.|-1|-2|
+|:---:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|Name |Eight|Four|Two|One|Dot|Half|Quarter|
+|Value|$2^3=8$|$2^2=4$|$2^1=2$|$2^0=1$|.|$2^{-1}=0.5$|$2^{-2}=0.25$|
+|Sample|1|0|0|1|.|1|1|
+
+Value:
+- $1\mult2^{3} = $1\mult8 = 8
+- $0\mult2^{2} = $0\mult4 = 0
+- $0\mult2^{1} = $0\mult2 = 0
+- $1\mult2^{0} = $1\mult1 = 1
+- $1\mult2^{-1} = $1\mult0.5 = 0.5
+- $1\mult2^{-2} = $1\mult0.25 = 0.25
+
+Sum: 9.75
+
+## Fixed-Point Numbers
+In programming, we can express rational numbers by defining that a number has a point at a fixed bit.
+- C# does not come with an implementation per default
+- we will later see why
+- but fixed point numbers have use cases in game programming
+- because they behave deterministically
+
+### Fixed-Point Unsigned Byte Definition
+- The first 4 bits represent bits before the decimal point
+- The remaining 4 bits represent bits after the decimal point
+
+Let's try defining `5.7`:
+
+|Power|3|2|1|0|.|-1|-2|-3|-4|
+|:---:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|Name |Eight|Four|Two|One|Dot|Half|Quarter|Eigth|Sixteenth|
+|Value|$2^3=8$|$2^2=4$|$2^1=2$|$2^0=1$|.|$2^{-1}=0.5$|$2^{-2}=0.25$||$2^{-3}=0.125$||$2^{-2}=0.0625$|
+|Sample|0|1|0|1|.|1|0|1|1|
+
+- $0\mult2^{3} = $1\mult8 = 0
+- $1\mult2^{2} = $0\mult4 = 1
+- $0\mult2^{1} = $0\mult2 = 0
+- $1\mult2^{0} = $1\mult1 = 1
+- $1\mult2^{-1} = $1\mult0.5 = 0.5
+- $0\mult2^{-2} = $1\mult0.25 = 0
+- $1\mult2^{-3} = $1\mult0.125 = 0.125
+- $1\mult2^{-4} = $1\mult0.0625 = 0.0625
+
+Sum: 5.66875
+
+That's close to 5.7 but not exact.
+- This is a problem we'll always have with fractional numbers in Programming.
+
+What's the largest number representable by this byte?
+- 15.9375
+
+What's the precision of this data type (how accurate is it, what's the smallest step you can do?)
+- $2^{-4} = 0.0625$
+
+How can we improve the largest number representable?
+- Move the Binary Point to the right (losing precision)
+- Adding More Bytes
+
+How can we improve the precision?
+- Move the Binary Point to the left (reducing the largest representable number)
+- Adding More Bytes
+
+So either way, we would waste performance:
+- for very small numbers like `0.0001255`, we waste bits before the point at a loss of precision
+- for very large numbers like `91224` we waste bits after the point at a loss of how large the number can be
+
+## Floating-Point Numbers
+The solution to thi
