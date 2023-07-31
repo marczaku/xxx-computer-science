@@ -4,6 +4,7 @@ In this chapter, we'll learn about how numbers are serialized on our CPU.
 This will enable you to always pick the right type in order to:
 - avoid wasting memory (RAM or on the Hard Drive)
 - avoid number overflows (which can cause e.g. the player's health to drop from 255 to 0 instead of going 256)
+- avoid bugs caused by lack of precision
 
 ## Unsigned Integers
 For unsigned integers, the obvious solution is to make the byte's numeric value equal to the value of the number, e.g.:
