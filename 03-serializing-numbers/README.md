@@ -4,7 +4,7 @@ In this chapter, we'll learn about how numbers are serialized on our CPU.
 This will enable you to always pick the right type in order to:
 - avoid wasting memory (RAM or on the Hard Drive)
 - avoid number overflows (which can cause e.g. the player's health to drop from 255 to 0 instead of going 256)
-- avoid bugs caused by lack of precision
+- avoid bugs caused by a lack of precision
 
 ## Unsigned Integers
 For unsigned integers, the obvious solution is to make the byte's numeric value equal to the value of the number, e.g.:
@@ -156,12 +156,12 @@ Other Types of Numbers:
 
 ## Rational Numbers
 - How can we store rational numbers in binary?
-- All numbers that can be written as $p\diva$
+- All numbers that can be written as $\frac{p}{a}$
   - where `p` and `a` are whole numbers
   - (that's why it's called RATIOnal numbers)
 - All rational numbers can be written either
-  - as a finite fraction: $1\div2 = 0.5$
-  - a period fraction: $1\div3 = 0.333...$
+  - as a finite fraction: $\frac{1}{2} = 0.5$
+  - a period fraction: $\frac{1}{3} = 0.333...$
  
 ### Decimal Point
 You all know, how the decimal point works. Similarly how each additional digit before the Decimal Point increases the power by one, each digit after the Decimal Point decreases it:
@@ -182,12 +182,12 @@ This works the same in the binary system:
 |Sample|1|0|0|1|.|1|1|
 
 Value:
-- $1\mult2^{3} = $1\mult8 = 8
-- $0\mult2^{2} = $0\mult4 = 0
-- $0\mult2^{1} = $0\mult2 = 0
-- $1\mult2^{0} = $1\mult1 = 1
-- $1\mult2^{-1} = $1\mult0.5 = 0.5
-- $1\mult2^{-2} = $1\mult0.25 = 0.25
+- $1\times2^{3} = 1\times8 = 8$
+- $0\times2^{2} = 0\times4 = 0$
+- $0\times2^{1} = 0\times2 = 0$
+- $1\times2^{0} = 1\times1 = 1$
+- $1\times2^{-1} = 1\times0.5 = 0.5$
+- $1\times2^{-2} = 1\times0.25 = 0.25$
 
 Sum: 9.75
 
@@ -210,14 +210,14 @@ Let's try defining `5.7`:
 |Value|$2^3=8$|$2^2=4$|$2^1=2$|$2^0=1$|.|$2^{-1}=0.5$|$2^{-2}=0.25$||$2^{-3}=0.125$||$2^{-2}=0.0625$|
 |Sample|0|1|0|1|.|1|0|1|1|
 
-- $0\mult2^{3} = $1\mult8 = 0
-- $1\mult2^{2} = $0\mult4 = 1
-- $0\mult2^{1} = $0\mult2 = 0
-- $1\mult2^{0} = $1\mult1 = 1
-- $1\mult2^{-1} = $1\mult0.5 = 0.5
-- $0\mult2^{-2} = $1\mult0.25 = 0
-- $1\mult2^{-3} = $1\mult0.125 = 0.125
-- $1\mult2^{-4} = $1\mult0.0625 = 0.0625
+- $0\times2^{3} = 1\times8 = 0$
+- $1\times2^{2} = 0\times4 = 1$
+- $0\times2^{1} = 0\times2 = 0$
+- $1\times2^{0} = 1\times1 = 1$
+- $1\times2^{-1} = 1\times0.5 = 0.5$
+- $0\times2^{-2} = 1\times0.25 = 0$
+- $1\times2^{-3} = 1\times0.125 = 0.125$
+- $1\times2^{-4} = 1\times0.0625 = 0.0625$
 
 Sum: 5.66875
 
@@ -243,4 +243,4 @@ So either way, we would waste performance:
 - for very large numbers like `91224` we waste bits after the point at a loss of how large the number can be
 
 ## Floating-Point Numbers
-The solution to thi
+The solution to this
